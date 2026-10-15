@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOGUEVA | Fashion Store</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+:root{--pink:#ff3f6c;--dark:#222;--muted:#777;--bg:#fff;--line:#eee}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',Arial,sans-serif;color:var(--dark);background:#fff}
+button,input,select{font:inherit}
+button,a{cursor:pointer}
+a{text-decoration:none;color:inherit}
+button{border:0;background:none}
+.topbar{text-align:center;background:#222;color:white;padding:9px;font-size:12px;letter-spacing:1px}
+header{height:76px;display:flex;align-items:center;gap:30px;padding:0 5%;position:sticky;top:0;background:#ffffffef;backdrop-filter:blur(15px);z-index:20;border-bottom:1px solid #eee}
+.brand{font-size:25px;font-weight:800;letter-spacing:2px;white-space:nowrap}
+.brand span{color:var(--pink)}
+.nav{display:flex;gap:23px;height:100%;align-items:center}
+.nav button{height:100%;font-size:12px;font-weight:700;letter-spacing:.5px;position:relative}
+.nav button:hover,.nav button.active{color:var(--pink)}
+.nav button.active:after{content:"";height:3px;background:var(--pink);position:absolute;bottom:0;left:0;right:0}
+.search{flex:1;display:flex;background:#f5f5f6;border-radius:5px;align-items:center;padding:0 13px;min-width:100px}
+.search input{width:100%;padding:13px 10px;border:0;outline:0;background:transparent;font-size:12px}
+.actions{display:flex;gap:17px}
+.action{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;position:relative;min-width:32px}
+.action .symbol{font-size:21px}
+.count{position:absolute;top:-5px;right:-7px;background:var(--pink);color:#fff;border-radius:50%;font-size:10px;min-width:17px;height:17px;display:grid;place-items:center}
+.hero{margin:25px 4% 35px;min-height:360px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;background:#f8e6e9}
+.hero-copy{padding:55px 9%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--pink);margin-bottom:17px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,65px);line-height:1.08;margin-bottom:18px}
+.hero p{color:#666;line-height:1.8;font-size:14px;margin-bottom:25px}
+.primary{background:var(--dark);color:white;padding:14px 23px;font-size:12px;font-weight:700;letter-spacing:1px;transition:.25s}
+.primary:hover{background:var(--pink);transform:translateY(-2px)}
+.hero-image{min-height:360px;background:#f1d6da;position:relative;overflow:hidden}
+.hero-image img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
+.hero-label{position:absolute;bottom:20px;left:20px;background:white;padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:1px}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:35px 5% 55px}
+.category{padding:25px 12px;text-align:center;background:#faf5f5;transition:.25s;border:1px solid transparent}
+.category:hover,.category.selected{border-color:var(--pink);background:#fff0f3;transform:translateY(-3px)}
+.category .emoji{font-size:30px;margin-bottom:10px}
+.category strong{display:block;font-size:13px}
+.category small{display:block;color:#888;margin-top:5px}
+.products-section{padding:15px 5% 65px;scroll-margin-top:90px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:24px}
+.section-heading h2{font-family:'Playfair Display',serif;font-size:32px}
+.section-heading p{color:#888;font-size:12px;margin-top:8px}
+.controls{display:flex;gap:9px;align-items:center}
+.controls select{padding:11px;border:1px solid #ddd;background:white;max-width:175px;font-size:12px}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 17px}
+.product{position:relative;min-width:0;cursor:pointer;transition:transform .2s}
+.product:hover{transform:translateY(-4px)}
+.product-image{position:relative;aspect-ratio:3/4;background:#f4f4f4;overflow:hidden}
+.product-image img{width:100%;height:100%;object-fit:cover;transition:transform .45s}
+.product:hover .product-image img{transform:scale(1.045)}
+.heart{position:absolute;top:12px;right:12px;width:35px;height:35px;border-radius:50%;background:#ffffffed;font-size:20px;display:grid;place-items:center}
+.heart.on{color:var(--pink)}
+.discount{position:absolute;bottom:12px;left:0;background:white;padding:6px 9px;font-size:10px;font-weight:700}
+.product-info{padding:12px 2px}
+.product-info h3{font-size:14px;margin-bottom:5px}
+.product-info .subtitle{color:#777;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rating{display:inline-block;font-size:10px;background:#fff;border:1px solid #eee;padding:5px 7px;margin:10px 0}
+.price{font-size:13px;font-weight:700}
+.old-price{font-weight:400;text-decoration:line-through;color:#999;margin-left:5px;font-size:11px}
+.off{color:#ff905a;font-size:11px;margin-left:5px}
+.add-btn{width:100%;padding:11px;border:1px solid #ddd;margin-top:10px;font-size:11px;font-weight:700;transition:.2s}
+.add-btn:hover{border-color:var(--pink);color:var(--pink)}
+.empty{grid-column:1/-1;text-align:center;padding:60px 10px;color:#777}
+.empty button{margin-top:15px;padding:12px 20px;background:var(--pink);color:white}
+.promo{margin:0 5% 60px;padding:40px;background:#fff0f3;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.promo h2{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,38px);margin-bottom:8px}
+.promo p{font-size:13px;color:#777;line-height:1.7}
+footer{background:#fafafa;padding:40px 7% 25px}
+.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+footer h3{font-size:12px;margin-bottom:15px}
+footer p,footer a{display:block;font-size:12px;color:#777;line-height:2}
+.copyright{border-top:1px solid #eee;margin-top:30px;padding-top:20px;text-align:center;color:#888;font-size:11px}
+.overlay{display:none;position:fixed;inset:0;background:#0006;z-index:40}
+.overlay.show{display:block}
+.drawer{position:fixed;right:0;top:0;height:100%;width:min(430px,100%);background:white;z-index:41;transform:translateX(105%);transition:transform .3s;display:flex;flex-direction:column}
+.drawer.open{transform:translateX(0)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:22px;border-bottom:1px solid #eee}
+.drawer-head h2{font-size:18px}
+.close{font-size:27px;padding:0 5px}
+.drawer-body{padding:20px;overflow:auto;flex:1}
+.cart-row{display:grid;grid-template-columns:85px 1fr auto;gap:12px;padding:15px 0;border-bottom:1px solid #eee}
+.cart-row img{width:85px;height:105px;object-fit:cover}
+.cart-row h4{font-size:13px;margin:5px 0}
+.cart-row p{font-size:12px;color:#777;line-height:1.8}
+.cart-row strong{font-size:12px}
+.remove{color:var(--pink);font-size:11px;margin-top:12px}
+.qty{display:flex;align-items:center;gap:12px;margin-top:12px}
+.qty button{border:1px solid #ddd;width:25px;height:25px}
+.drawer-foot{padding:20px;border-top:1px solid #eee}
+.total{display:flex;justify-content:space-between;font-weight:700;margin-bottom:15px}
+.full{width:100%;text-align:center}
+.modal{position:fixed;inset:0;background:#0008;z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-box{width:min(700px,100%);background:white;position:relative;padding:25px;max-height:90vh;overflow:auto}
+.modal-close{position:absolute;right:15px;top:12px;font-size:27px;z-index:2}
+.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.detail-layout img{width:100%;max-height:480px;object-fit:cover}
+.detail-layout h2{font-family:'Playfair Display',serif;margin:20px 0 10px}
+.detail-layout p{font-size:13px;color:#777;line-height:1.8;margin:12px 0}
+.size-options{display:flex;gap:8px;margin:17px 0}
+.size-options button{width:39px;height:39px;border:1px solid #ddd;border-radius:50%}
+.size-options button.selected{border-color:var(--pink);color:var(--pink)}
+.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,120px);background:#222;color:white;padding:14px 22px;border-radius:4px;font-size:13px;z-index:100;transition:.3s}
+.toast.show{transform:translate(-50%,0)}
+@media(max-width:1000px){header{gap:15px;padding:0 3%}.nav{gap:13px}.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.actions{gap:10px}}
+@media(max-width:700px){
+header{height:auto;min-height:70px;flex-wrap:wrap;padding:15px 4%;gap:13px}
+.brand{font-size:21px}.nav{order:3;width:100%;height:35px;justify-content:space-between;gap:8px}
+.nav button{font-size:10px}.search{order:4;flex-basis:100%;flex-grow:1}
+.actions{margin-left:auto}.action{font-size:9px}.action .symbol{font-size:19px}
+.hero{grid-template-columns:1fr;margin:15px 3% 25px}.hero-copy{padding:35px 7% 25px}.hero-image{min-height:300px}
+.categories{margin:25px 3%;gap:8px;grid-template-columns:repeat(2,1fr)}
+.category{padding:20px 8px}.products-section{padding:20px 3% 45px}
+.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}
+.section-heading{align-items:start;flex-direction:column}.section-heading h2{font-size:27px}
+.controls{width:100%}.controls select{flex:1;max-width:none;min-width:0}
+.promo{margin:0 3% 40px;padding:27px 20px;align-items:flex-start;flex-direction:column}
+.footer-grid{grid-template-columns:1fr 1fr}.detail-layout{grid-template-columns:1fr}
+.detail-layout img{max-height:300px}.modal-box{padding:18px}
+}
+</style>
+</head>
+<body>
+<div class="topbar">FRESH STYLES · NEW SEASON · FREE SHIPPING ON ORDERS OVER ₹999</div>
+<header>
+<a href="#" class="brand">VOGUE<span>VA</span></a>
+<nav class="nav">
+<button class="active" data-cat="All">HOME</button>
+<button data-cat="Men">MEN</button>
+<button data-cat="Women">WOMEN</button>
+<button data-cat="Kids">KIDS</button>
+<button data-cat="Beauty">BEAUTY</button>
+</nav>
+<label class="search">⌕ <input id="search" placeholder="Search for products, brands and more..."></label>
+<div class="actions">
+<button class="action" id="wishOpen"><span class="symbol">♡</span><span>Wishlist</span><span class="count" id="wishCount">0</span></button>
+<button class="action" id="cartOpen"><span class="symbol">♧</span><span>Bag</span><span class="count" id="cartCount">0</span></button>
+</div>
+</header>
+
+<section class="hero">
+<div class="hero-copy">
+<div class="eyebrow">THE NEW SEASON EDIT</div>
+<h1>Style that<br><span class="gradient">speaks you.</span></h1>
+<p>Discover your next favourite look. Fresh fashion, timeless confidence and styles made for every day.</p>
+<button class="primary" onclick="showCategory('All')">SHOP THE COLLECTION &nbsp; ↗</button>
+</div>
+<div class="hero-image">
+<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1100&q=85" alt="Fashion collection">
+<div class="hero-label">YOUR STYLE. YOUR STORY.</div>
+</div>
+</section>
+
+<div class="categories">
+<button class="category" onclick="showCategory('Women')"><div class="emoji">👗</div><strong>WOMEN</strong><small>Explore collection ↗</small></button>
+<button class="category" onclick="showCategory('Men')"><div class="emoji">👔</div><strong>MEN</strong><small>Explore collection ↗</small></button>
+<button class="category" onclick="showCategory('Kids')"><div class="emoji">🧸</div><strong>KIDS</strong><small>Explore collection ↗</small></button>
+<button class="category" onclick="showCategory('Beauty')"><div class="emoji">✨</div><strong>BEAUTY</strong><small>Explore collection ↗</small></button>
+</div>
+
+<section class="products-section" id="shop">
+<div class="section-heading">
+<div><div class="eyebrow">HANDPICKED FOR YOU</div><h2 id="heading">Trending Now</h2><p id="resultText">Find your next favourite.</p></div>
+<div class="controls">
+<select id="sort"><option value="featured">Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="rating">Top Rated</option></select>
+<select id="maxPrice"><option value="99999">All Prices</option><option value="499">Under ₹499</option><option value="999">Under ₹999</option><option value="1499">Under ₹1,499</option><option value="2499">Under ₹2,499</option></select>
+</div>
+</div>
+<div class="product-grid" id="products"></div>
+</section>
+
+<section class="promo">
+<div><div class="eyebrow">A LITTLE SOMETHING EXTRA</div><h2>Good style. Better prices.</h2><p>Find pieces you'll love, without stretching your budget.</p></div>
+<button class="primary" onclick="showCategory('All')">EXPLORE ALL ↗</button>
+</section>
+
+<footer>
+<div class="footer-grid">
+<div><h3>VOGUEVA</h3><p>Fashion for every version of you.</p><p>Fresh finds. Personal style.</p></div>
+<div><h3>SHOP</h3><a href="#shop" onclick="showCategory('Women')">Women's Fashion</a><a href="#shop" onclick="showCategory('Men')">Men's Fashion</a><a href="#shop" onclick="showCategory('Kids')">Kids</a><a href="#shop" onclick="showCategory('Beauty')">Beauty</a></div>
+<div><h3>HELP & INFORMATION</h3><a href="#contact">Contact Us</a><a href="#contact">Shipping Information</a><a href="#contact">Returns & Exchanges</a><a href="#contact">Privacy Policy</a></div>
+</div>
+<div class="copyright" id="contact">© 2026 VOGUEVA · Independent fashion store concept</div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+<div class="drawer-head"><h2 id="drawerTitle">Your Bag</h2><button class="close" id="drawerClose">×</button></div>
+<div class="drawer-body" id="drawerBody"></div>
+<div class="drawer-foot" id="drawerFoot"></div>
+</aside>
+
+<div class="modal" id="productModal"><div class="modal-box" id="modalContent"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const productsData=[
+{id:1,name:"Classic White Shirt",brand:"STUDIO EDIT",category:"Men",price:799,old:1299,rating:4.5,image:"photo-1596755094514-f87e34085b2c",desc:"An effortless everyday shirt with a clean, versatile fit."},
+{id:2,name:"Elegant Summer Dress",brand:"THE STYLE CO.",category:"Women",price:1299,old:1999,rating:4.8,image:"photo-1496747611176-843222e1e57c",desc:"A breezy statement dress for sunny days and special moments."},
+{id:3,name:"Minimal Sneakers",brand:"URBAN STEP",category:"Men",price:1499,old:2499,rating:4.6,image:"photo-1542291026-7eec264c27ff",desc:"Everyday sneakers with a bold look and a comfortable feel."},
+{id:4,name:"Everyday Handbag",brand:"VOGUE EDIT",category:"Women",price:999,old:1599,rating:4.4,image:"photo-1584917865442-de89df76afd3",desc:"A versatile bag that brings a polished finish to any outfit."},
+{id:5,name:"Casual Denim Jacket",brand:"DENIM HOUSE",category:"Men",price:1199,old:1999,rating:4.3,image:"photo-1516257984-b1b4d707412e",desc:"A timeless denim layer for relaxed, everyday styling."},
+{id:6,name:"Chic Sunglasses",brand:"SUN THEORY",category:"Women",price:499,old:899,rating:4.2,image:"photo-1511499767150-a48a237f0083",desc:"A stylish finishing touch for your everyday looks."},
+{id:7,name:"Kids Everyday Outfit",brand:"LITTLE DAYS",category:"Kids",price:699,old:999,rating:4.5,image:"photo-1519238263530-99bdd11df2ea",desc:"Comfortable, playful fashion for little adventures."},
+{id:8,name:"Premium Wristwatch",brand:"TIME STUDIO",category:"Men",price:1899,old:2999,rating:4.7,image:"photo-1524805444758-089113d48a6d",desc:"A refined accessory that works from weekdays to weekends."},
+{id:9,name:"Beauty Essentials",brand:"GLOW LAB",category:"Beauty",price:599,old:999,rating:4.4,image:"photo-1608248543803-ba4f8c70ae0b",desc:"A curated beauty set for your everyday routine."},
+{id:10,name:"Floral Kurti",brand:"ETHNIC EDIT",category:"Women",price:899,old:1499,rating:4.6,image:"photo-1583391733956-6c78276477e7",desc:"A versatile floral-inspired look for your everyday wardrobe."},
+{id:11,name:"Kids Sneakers",brand:"TINY STEPS",category:"Kids",price:549,old:899,rating:4.3,image:"photo-1514989940723-e8e51635b782",desc:"A fun, easy-to-style footwear option for active days."},
+{id:12,name:"Beauty Care Set",brand:"PURE GLOW",category:"Beauty",price:1199,old:1799,rating:4.8,image:"photo-1556229010-6c3f2c9ca5f8",desc:"Daily-care essentials in one convenient collection."}
+];
+const imgURL=id=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=700&q=80`;
+let category="All",wishlist=[],cart=[],onlyWishlist=false,selectedSize="M";
+const $=id=>document.getElementById(id);
+const money=n=>"₹"+n.toLocaleString("en-IN");
+function toast(message){$("toast").textContent=message;$("toast").classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function showCategory(cat){
+category=cat;onlyWishlist=false;
+document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.cat===cat));
+$("heading").textContent=cat==="All"?"Trending Now":cat+" Collection";
+renderProducts();$("shop").scrollIntoView({behavior:"smooth"});
+}
+function renderProducts(){
+const term=$("search").value.trim().toLowerCase(),max=Number($("maxPrice").value),sort=$("sort").value;
+let list=productsData.filter(p=>(category==="All"||p.category===category)&&(p.name+" "+p.brand+" "+p.category).toLowerCase().includes(term)&&p.price<=max&&(!onlyWishlist||wishlist.includes(p.id)));
+if(sort==="low")list.sort((a,b)=>a.price-b.price);
+if(sort==="high")list.sort((a,b)=>b.price-a.price);
+if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);
+$("resultText").textContent=list.length+" products to explore";
+$("products").innerHTML=list.length?list.map(p=>`
+<article class="product">
+<div class="product-image" onclick="openProduct(${p.id})">
+<img src="${imgURL(p.image)}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/500x650/f5f5f5/555?text=VOGUEVA'">
+<span class="discount">${Math.round((1-p.price/p.old)*100)}% OFF</span>
+</div>
+<button class="heart ${wishlist.includes(p.id)?"on":""}" aria-label="Toggle wishlist" onclick="toggleWish(event,${p.id})">${wishlist.includes(p.id)?"♥":"♡"}</button>
+<div class="product-info" onclick="openProduct(${p.id})">
+<h3>${p.brand}</h3><p class="subtitle">${p.name}</p>
+<div class="rating">★ ${p.rating} · Customer favourite</div>
+<div><span class="price">${money(p.price)}</span><span class="old-price">${money(p.old)}</span><span class="off">(${Math.round((1-p.price/p.old)*100)}% off)</span></div>
+</div>
+<button class="add-btn" onclick="addToCart(${p.id})">＋ ADD TO BAG</button>
+</article>`).join(""):`<div class="empty"><h3>No products found</h3><p>Try another search or category.</p><button onclick="resetFilters()">Show all products</button></div>`;
+}
+function resetFilters(){$("search").value="";$("maxPrice").value="99999";$("sort").value="featured";showCategory("All")}
+function toggleWish(e,id){e.stopPropagation();wishlist.includes(id)?wishlist=wishlist.filter(x=>x!==id):wishlist.push(id);updateCounts();renderProducts();toast(wishlist.includes(id)?"Added to wishlist":"Removed from wishlist")}
+function addToCart(id,size="M"){const found=cart.find(x=>x.id===id&&x.size===size);if(found)found.qty++;else cart.push({id,size,qty:1});updateCounts();toast("Added to your bag")}
+function updateCounts(){$("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);$("wishCount").textContent=wishlist.length}
+function openDrawer(mode){
+onlyWishlist=mode==="wish";
+$("drawerTitle").textContent=mode==="wish"?"Your Wishlist":"Your Bag";
+$("drawerFoot").innerHTML="";
+if(mode==="wish"){
+const list=productsData.filter(p=>wishlist.includes(p.id));
+$("drawerBody").innerHTML=list.length?list.map(p=>`<div class="cart-row"><img src="${imgURL(p.image)}" alt=""><div><h4>${p.name}</h4><p>${p.brand}</p><strong>${money(p.price)}</strong><br><button class="remove" onclick="toggleWish(event,${p.id});openDrawer('wish')">REMOVE</button><br><button class="remove" onclick="addToCart(${p.id});openDrawer('cart')">ADD TO BAG →</button></div></div>`).join(""):`<div class="empty"><h3>Your wishlist is empty ♡</h3><p>Save products you love.</p></div>`;
+}else{
+$("drawerBody").innerHTML=cart.length?cart.map((item,i)=>{const p=productsData.find(x=>x.id===item.id);return `<div class="cart-row"><img src="${imgURL(p.image)}" alt=""><div><h4>${p.name}</h4><p>${p.brand}<br>Size: ${item.size}<br>${money(p.price)}</p><div class="qty"><button onclick="changeQty(${i},-1)">−</button><span>${item.qty}</span><button onclick="changeQty(${i},1)">+</button></div><button class="remove" onclick="removeCart(${i})">REMOVE</button></div><strong>${money(p.price*item.qty)}</strong></div>`}).join(""):`<div class="empty"><h3>Your bag is empty ♧</h3><p>Discover something you love.</p></div>`;
+if(cart.length){const total=cart.reduce((s,x)=>s+productsData.find(p=>p.id===x.id).price*x.qty,0);$("drawerFoot").innerHTML=`<div class="total"><span>Total</span><span>${money(total)}</span></div><button class="primary full" onclick="checkout()">CONTINUE TO CHECKOUT →</button><p style="font-size:11px;color:#777;margin-top:12px">Demo store · No payment will be collected</p>`}
+}
+$("overlay").classList.add("show");$("drawer").classList.add("open");
+}
+function changeQty(i,delta){cart[i].qty+=delta;if(cart[i].qty<=0)cart.splice(i,1);updateCounts();openDrawer("cart")}
+function removeCart(i){cart.splice(i,1);updateCounts();openDrawer("cart")}
+function closeDrawer(){$("overlay").classList.remove("show");$("drawer").classList.remove("open")}
+function checkout(){toast("Demo checkout: connect a secure payment provider to accept payments.");}
+function openProduct(id){
+const p=productsData.find(x=>x.id===id);selectedSize="M";
+$("modalContent").innerHTML=`<button class="modal-close" onclick="closeModal()">×</button><div class="detail-layout"><img src="${imgURL(p.image)}" alt="${p.name}" onerror="this.src='https://placehold.co/500x650?text=VOGUEVA'"><div><div class="eyebrow">${p.brand}</div><h2>${p.name}</h2><div class="rating">★ ${p.rating} rating</div><div><strong style="font-size:22px">${money(p.price)}</strong> <span class="old-price">${money(p.old)}</span></div><p>${p.desc}</p><p><strong>Category:</strong> ${p.category}</p><p><strong>Select size</strong></p><div class="size-options">${["S","M","L","XL"].map(s=>`<button class="${s===selectedSize?"selected":""}" onclick="selectSize('${s}')">${s}</button>`).join("")}</div><button class="primary full" onclick="addSelected(${p.id})">ADD TO BAG</button><button class="add-btn" onclick="toggleWish(event,${p.id})">♡ SAVE TO WISHLIST</button></div></div>`;
+$("productModal").classList.add("show");
+}
+function selectSize(s){selectedSize=s;document.querySelectorAll(".size-options button").forEach(b=>b.classList.toggle("selected",b.textContent===s))}
+function addSelected(id){addToCart(id,selectedSize);closeModal();openDrawer("cart")}
+function closeModal(){$("productModal").classList.remove("show")}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>showCategory(b.dataset.cat)));
+$("search").addEventListener("input",()=>{onlyWishlist=false;renderProducts()});
+$("sort").addEventListener("change",renderProducts);
+$("maxPrice").addEventListener("change",renderProducts);
+$("cartOpen").addEventListener("click",()=>openDrawer("cart"));
+$("wishOpen").addEventListener("click",()=>openDrawer("wish"));
+$("drawerClose").addEventListener("click",closeDrawer);
+$("overlay").addEventListener("click",closeDrawer);
+$("productModal").addEventListener("click",e=>{if(e.target===$("productModal"))closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closeModal()}});
+renderProducts();updateCounts();
+</script>
+</body>
+</html>
